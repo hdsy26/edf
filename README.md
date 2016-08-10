@@ -36,9 +36,13 @@ web project web.xml
     <servlet-name>Service</servlet-name>
     <url-pattern>/service/*</url-pattern>
   </servlet-mapping>
-  
+
+
+
+
 spring config
 core-applicationContext.xml
+
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -158,7 +162,11 @@ core-applicationContext.xml
 		
 </beans>
 
+
+
+
 register-applicationContext.xml
+
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
@@ -270,7 +278,11 @@ register-applicationContext.xml
 
 </beans>
 
+
+
+
 converter-applicationContext.xml
+
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
@@ -293,7 +305,11 @@ converter-applicationContext.xml
 	
 </beans>
 
+
+
+
 handler-applicationContext.xml
+
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
@@ -339,9 +355,6 @@ handler-applicationContext.xml
 	<bean name="serviceHandler" class="org.edf.hifox.handler.service.ServiceHandler">
 		<property name="invoker" ref="defaultServiceInvoker" />
 	</bean>
-	
-	
-	
 	
 	<bean name="outboundSwapAreaHandler" class="org.edf.hifox.handler.outbound.OutboundSwapAreaHandler">
 		<property name="reqUsernamePath" value="['_outbound_request_message'].head.sysReqUsername" />
