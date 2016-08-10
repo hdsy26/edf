@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns="http://www.w3school.com.cn" 
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	elementFormDefault="qualified" targetNamespace="http://www.w3school.com.cn">
+
+	<xs:element name="services" type="servicesType" />
+	
+	<xs:complexType name="servicesType">
+		<xs:sequence maxOccurs="unbounded">
+        	<xs:element name="service" type="serviceType"/>
+      	</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="serviceType">
+		<xs:all>
+			<xs:element minOccurs="0" maxOccurs="1" name="method-arguments" type="methodArgumentsType"></xs:element>
+		</xs:all>
+		<xs:attribute name="id" type="xs:string"/>
+		<xs:attribute name="bean-id" type="xs:string"/>
+		<xs:attribute name="method-name" type="xs:string"/>
+	</xs:complexType>
+	
+	<xs:complexType name="methodArgumentsType">
+		<xs:sequence minOccurs="1" maxOccurs="unbounded">
+        	<xs:element name="argument" type="argumentType"/>
+      	</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="argumentType">
+      	<xs:attribute name="order" type="xs:integer"/>
+      	<xs:attribute name="type" type="xs:string"/>
+      	<xs:attribute name="expression" type="xs:string"/>
+	</xs:complexType>
+	
+</xs:schema>

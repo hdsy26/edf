@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns="http://www.w3school.com.cn" 
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	elementFormDefault="qualified" targetNamespace="http://www.w3school.com.cn">
+
+	<xs:element name="excels" type="excelsType" />
+	
+	<xs:complexType name="excelsType">
+		<xs:sequence maxOccurs="unbounded">
+        	<xs:element name="excel" type="excelType"/>
+      	</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="excelType">
+		<xs:all minOccurs="1" maxOccurs="1">
+			<xs:element name="columns" type="columnsType"></xs:element>
+		</xs:all>
+		<xs:attribute name="id" type="xs:string"/>
+		<xs:attribute name="sheetname" type="xs:string"/>
+	</xs:complexType>
+	
+	<xs:complexType name="columnsType">
+		<xs:sequence minOccurs="1" maxOccurs="unbounded">
+        	<xs:element name="column" type="columnType"/>
+      	</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="columnType">
+		<xs:attribute name="type" type="enumType"/>
+		<xs:attribute name="headtext" type="xs:string"/>
+		<xs:attribute name="datafield" type="xs:string"/>
+	</xs:complexType>
+	
+	<xs:simpleType name="enumType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="label"/>
+			<xs:enumeration value="number"/>
+			<xs:enumeration value="datetime"/>
+			<xs:enumeration value="formula"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+</xs:schema>
