@@ -378,6 +378,3 @@ handler-applicationContext.xml
 	
 </beans>
 
-
-
-  
