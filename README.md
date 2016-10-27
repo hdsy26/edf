@@ -7,7 +7,8 @@ easy development framework
 web project
 web.xml
 
-<context-param>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+	<context-param>
     <param-name>classEditors</param-name>
     <param-value>org.edf.hifox.editor.Log4jClassEditor</param-value>
   </context-param>
@@ -41,6 +42,7 @@ web.xml
     <servlet-name>Service</servlet-name>
     <url-pattern>/service/*</url-pattern>
   </servlet-mapping>
+</web-app>
 
 
 
