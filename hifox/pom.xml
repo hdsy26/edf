@@ -5,7 +5,7 @@
 	<artifactId>hifox</artifactId>
 	<version>0.0.1</version>
 	<name>hifox</name>
-	<description>edf hifox</description>
+	<description>edf hifox core</description>
 
 	<build>
 		<plugins>
