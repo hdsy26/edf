@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+	
+	<bean id="converterConfigParser" class="org.edf.hifox.core.parser.DefaultParser">
+		<property name="ruleResource">
+			<value>classpath:rule/converter-rule.xml</value>
+		</property>
+		<property name="className" value="org.edf.hifox.core.register.converter.registry.xmlbean.ConverterCfg"/>
+	</bean>
+	
+	<!-- 数据转换注册表 -->
+	<bean id="converterRegistry" class="org.edf.hifox.core.register.converter.registry.ConverterRegistry" />
+
+	<!-- 数据转换注册器 -->
+	<bean class="org.edf.hifox.core.register.converter.ConverterConfigRegister">
+		<property name="springContextUtil" ref="springContextUtil"/>
+		<property name="parser" ref="converterConfigParser" />
+		<property name="registry" ref="converterRegistry" />
+		<property name="resources">
+			<list>
+				<value>classpath*:application/converter/*/*-converter-registry.xml</value>
+			</list>
+		</property>
+	</bean>
+
+</beans>
+

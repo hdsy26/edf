@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-4.2.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util-4.2.xsd">
+	
+	<bean class="org.edf.hifox.core.editor.Log4jClassEditor" init-method="edit" />
+	
+	<!-- 属性占位符配置 -->
+	<bean id="propertyPlaceholderConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
+		p:ignoreUnresolvablePlaceholders="true">
+		<property name="locations">
+			<list>
+				<value>classpath*:*.properties</value>
+				<value>classpath*:application/*/*/*.properties</value>
+			</list>
+		</property>
+	</bean>
+	
+
+	<!-- 国际化组件 -->
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>i18n/log/core_log</value>
+				<value>i18n/error/core_error</value>
+				<value>i18n/log/security_log</value>
+				<value>i18n/error/security_error</value>
+			</list>
+		</property>
+	</bean>
+	
+
+	<!-- 框架上下文 -->
+	<bean id="springContextUtil" class="org.edf.hifox.core.util.SpringContextUtil" />
+	
+	
+	<!-- 表达式解析组件 -->
+	<bean id="expressionParser" class="org.edf.hifox.core.expression.spel.SpelExpressionParser" />
+	
+	
+	<!-- 数据交换区管理器 -->
+	<bean id="swapAreaManager" class="org.edf.hifox.core.swaparea.manager.DefaultSwapAreaManager">
+		<constructor-arg>
+			<bean class="org.edf.hifox.core.swaparea.DefaultSwapAreaHolder" />
+		</constructor-arg>
+		<constructor-arg ref="expressionParser" />
+	</bean>
+	
+	<!-- 数据交换区工具 -->
+	<bean class="org.springframework.beans.factory.config.MethodInvokingBean">
+    	<property name="staticMethod" value="org.edf.hifox.core.util.SwapAreaUtil.setSwapAreaManager" />
+    	<property name="arguments" ref="swapAreaManager"/>
+    </bean>
+    
+    
+    <!-- 数据转换管理器  -->
+    <bean id="defaultConverterManager" class="org.edf.hifox.core.converter.manager.DefaultConverterManager">
+		<property name="registry" ref="converterRegistry" />
+	</bean>
+	
+	<!-- 数据转换工具 -->
+	<bean class="org.springframework.beans.factory.config.MethodInvokingBean">
+    	<property name="staticMethod" value="org.edf.hifox.core.util.DataConvertUtil.setConverterManager" />
+    	<property name="arguments" ref="defaultConverterManager"/>
+    </bean>
+	
+	
+	<bean id="abortPolicy" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+    	<property name="staticMethod" value="org.edf.hifox.core.concurrent.policy.AbortPolicy.getInstance" />
+    </bean>
+    <bean id="discardPolicy" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+    	<property name="staticMethod" value="org.edf.hifox.core.concurrent.policy.DiscardPolicy.getInstance" />
+    </bean>
+    <bean id="discardOldestPolicy" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+    	<property name="staticMethod" value="org.edf.hifox.core.concurrent.policy.DiscardOldestPolicy.getInstance" />
+    </bean>
+    <bean id="callerRunsPolicy" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+    	<property name="staticMethod" value="org.edf.hifox.core.concurrent.policy.CallerRunsPolicy.getInstance" />
+    </bean>
+    
+</beans>
+

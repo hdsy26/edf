@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns="http://www.w3school.com.cn" 
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	elementFormDefault="qualified" targetNamespace="http://www.w3school.com.cn">
+
+	<xs:element name="mappings" type="mappingsType" />
+	
+	<xs:complexType name="mappingsType">
+		<xs:sequence maxOccurs="unbounded">
+        	<xs:element name="mapping" type="mappingType"/>
+      	</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="mappingType">
+		<xs:all>
+			<xs:element minOccurs="0" maxOccurs="1" name="class-defs" type="classDefsType"></xs:element>
+			<xs:element minOccurs="0" maxOccurs="1" name="template-def" type="templateDefType"></xs:element>
+		</xs:all>
+		<xs:attribute name="id" type="xs:string"/>
+		<xs:attribute name="converter-id" type="xs:string"/>
+		<xs:attribute name="rulecreator-id" type="xs:string"/>
+	</xs:complexType>
+	
+	<xs:complexType name="classDefsType">
+		<xs:sequence maxOccurs="unbounded">
+        	<xs:element name="class-def" type="classDefType"/>
+      	</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="classDefType">
+		<xs:sequence minOccurs="0" maxOccurs="unbounded">
+        	<xs:element name="field-def" type="fieldDefType"/>
+      	</xs:sequence>
+      	<xs:attribute name="name" type="xs:string"/>
+	</xs:complexType>
+	
+	<xs:complexType name="fieldDefType">
+		<xs:attribute name="name" type="xs:string"/>
+		<xs:attribute name="field-type" type="xs:string"/>
+		<xs:attribute name="field-impl" type="xs:string"/>
+	</xs:complexType>
+	
+	<xs:complexType name="templateDefType">
+		<xs:all>
+			<xs:element minOccurs="1" maxOccurs="1" name="value" type="xs:string"></xs:element>
+		</xs:all>
+		<xs:attribute name="embed" type="xs:string"/>
+		<xs:attribute name="encoding" type="enumEncoding"/>
+	</xs:complexType>
+	
+	<xs:simpleType name="enumEncoding">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="UTF-8"/>
+			<xs:enumeration value="GBK"/>
+			<xs:enumeration value="ISO-8859-1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+</xs:schema>

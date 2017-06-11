@@ -1,0 +1,18 @@
+http://docs.oracle.com/javase/7/docs/technotes/tools/solaris/keytool.html
+
+RSA
+keytool -genkey -dname "CN=wangyang,OU=server,O=server,L=SH,ST=SH,C=CN" -alias ca_rsa -keyalg RSA -keysize 1024 -keystore ca_rsa.keystore -storetype JKS -storepass storepass -keypass keypass -validity 3650
+keytool -list -rfc -keystore ca_rsa.keystore
+keytool -list -v -keystore ca_rsa.keystore
+
+EDS
+keytool -genseckey -dname "CN=wangyang,OU=server,O=server,L=SH,ST=SH,C=CN" -alias ca_des -keyalg DES -keysize 56 -keystore ca_des.keystore -storetype JCEKS -storepass storepass -keypass keypass -validity 3650
+keytool -list -rfc -storetype JCEKS -keystore ca_des.keystore
+keytool -list -v -storetype JCEKS -keystore ca_des.keystore
+
+AES
+keytool -genseckey -dname "CN=wangyang,OU=server,O=server,L=SH,ST=SH,C=CN" -alias ca_aes -keyalg AES -keysize 128 -keystore ca_aes.keystore -storetype JCEKS -storepass storepass -keypass keypass -validity 3650
+keytool -list -rfc -storetype JCEKS -keystore ca_aes.keystore
+keytool -list -v -storetype JCEKS -keystore ca_aes.keystore
+
+SHA1withDSA

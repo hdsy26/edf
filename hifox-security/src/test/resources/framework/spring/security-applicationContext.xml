@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:jms="http://www.springframework.org/schema/jms"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-4.2.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util-4.2.xsd
+		http://www.springframework.org/schema/jms
+        http://www.springframework.org/schema/jms/spring-jms-4.2.xsd">
+	
+	
+	<!-- ===================== RSA ===================== -->
+	<bean id="rsaEncipher" class="org.edf.hifox.security.cipher.support.RsaEncipher">
+		<property name="resource">
+			<value>classpath:application/keystore/ca_rsa.keystore</value>
+		</property>
+		<property name="alias" value="ca_rsa"/>
+		<property name="storeType" value="JKS" />
+		<property name="storePassword" value="storepass"/>
+	</bean>
+	<bean id="rsaDecipher" class="org.edf.hifox.security.cipher.support.RsaDecipher">
+		<property name="resource">
+			<value>classpath:application/keystore/ca_rsa.keystore</value>
+		</property>
+		<property name="alias" value="ca_rsa"/>
+		<property name="storeType" value="JKS" />
+		<property name="storePassword" value="storepass"/>
+		<property name="keyPassword" value="keypass"/>
+	</bean>
+	<!-- =============================================== -->
+	
+	
+	<!-- ===================== DES ===================== -->
+	<bean id="desEncipher" class="org.edf.hifox.security.cipher.support.DesEncipher">
+		<property name="resource">
+			<value>classpath:application/keystore/ca_des.keystore</value>
+		</property>
+		<property name="alias" value="ca_des"/>
+		<property name="storeType" value="JCEKS" />
+		<property name="storePassword" value="storepass"/>
+		<property name="keyPassword" value="keypass"/>
+	</bean>
+	<bean id="desDecipher" class="org.edf.hifox.security.cipher.support.DesDecipher">
+		<property name="resource">
+			<value>classpath:application/keystore/ca_des.keystore</value>
+		</property>
+		<property name="alias" value="ca_des"/>
+		<property name="storeType" value="JCEKS" />
+		<property name="storePassword" value="storepass"/>
+		<property name="keyPassword" value="keypass"/>
+	</bean>
+	<!-- =============================================== -->
+	
+	
+	<!-- ===================== AES ===================== -->
+	<bean id="aesEncipher" class="org.edf.hifox.security.cipher.support.AesEncipher">
+		<property name="resource">
+			<value>classpath:application/keystore/ca_aes.keystore</value>
+		</property>
+		<property name="alias" value="ca_aes"/>
+		<property name="storeType" value="JCEKS" />
+		<property name="storePassword" value="storepass"/>
+		<property name="keyPassword" value="keypass"/>
+	</bean>
+	<bean id="aesDecipher" class="org.edf.hifox.security.cipher.support.AesDecipher">
+		<property name="resource">
+			<value>classpath:application/keystore/ca_aes.keystore</value>
+		</property>
+		<property name="alias" value="ca_aes"/>
+		<property name="storeType" value="JCEKS" />
+		<property name="storePassword" value="storepass"/>
+		<property name="keyPassword" value="keypass"/>
+	</bean>
+	<!-- =============================================== -->
+	
+	
+	<!-- ===================== DES-RANDOMKEY ===================== -->
+	<bean id="desRandomkeyEncipher" class="org.edf.hifox.security.cipher.support.RandomkeyEncipher">
+		<property name="algorithm" value="DES"/>
+		<property name="baseEncipher" ref="rsaEncipher"/>
+	</bean>
+	<bean id="desRandomkeyDecipher" class="org.edf.hifox.security.cipher.support.RandomkeyDecipher">
+	<property name="algorithm" value="DES"/>
+		<property name="baseDecipher" ref="rsaDecipher"/>
+	</bean>
+	<!-- ========================================================= -->
+	
+	
+	<!-- ===================== AES-RANDOMKEY ===================== -->
+	<bean id="aesRandomkeyEncipher" class="org.edf.hifox.security.cipher.support.RandomkeyEncipher">
+		<property name="algorithm" value="AES"/>
+		<property name="baseEncipher" ref="rsaEncipher"/>
+	</bean>
+	<bean id="aesRandomkeyDecipher" class="org.edf.hifox.security.cipher.support.RandomkeyDecipher">
+	<property name="algorithm" value="AES"/>
+		<property name="baseDecipher" ref="rsaDecipher"/>
+	</bean>
+	<!-- ========================================================= -->
+	
+	
+	
+	
+	<!-- ===================== RSA-CHAIN ===================== -->
+	<bean id="rsa-encipher-chain" class="org.edf.hifox.core.chain.HandlerChain">
+		<property name="handlerList">
+			<list>
+				<bean class="org.edf.hifox.security.handler.EncipherHandler" p:encipher-ref="rsaEncipher"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="rsa-decipher-chain" class="org.edf.hifox.core.chain.HandlerChain">
+		<property name="handlerList">
+			<list>
+				<bean class="org.edf.hifox.security.handler.DecipherHandler" p:decipher-ref="rsaDecipher"/>
+			</list>
+		</property>
+	</bean>
+	<!-- ===================================================== -->
+	
+	
+	<!-- ===================== DES-CHAIN ===================== -->
+	<bean id="des-encipher-chain" class="org.edf.hifox.core.chain.HandlerChain">
+		<property name="handlerList">
+			<list>
+				<bean class="org.edf.hifox.security.handler.EncipherHandler" p:encipher-ref="desEncipher"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="des-decipher-chain" class="org.edf.hifox.core.chain.HandlerChain">
+		<property name="handlerList">
+			<list>
+				<bean class="org.edf.hifox.security.handler.DecipherHandler" p:decipher-ref="desDecipher"/>
+			</list>
+		</property>
+	</bean>
+	<!-- ===================================================== -->
+	
+	
+	<!-- ===================== AES-CHAIN ===================== -->
+	<bean id="aes-encipher-chain" class="org.edf.hifox.core.chain.HandlerChain">
+		<property name="handlerList">
+			<list>
+				<bean class="org.edf.hifox.security.handler.EncipherHandler" p:encipher-ref="aesEncipher"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="aes-decipher-chain" class="org.edf.hifox.core.chain.HandlerChain">
+		<property name="handlerList">
+			<list>
+				<bean class="org.edf.hifox.security.handler.DecipherHandler" p:decipher-ref="aesDecipher"/>
+			</list>
+		</property>
+	</bean>
+	<!-- ===================================================== -->
+	
+	
+	<!-- ===================== RSA-DES-CHAIN ===================== -->
+	<bean id="rsa-des-encipher-chain" class="org.edf.hifox.core.chain.HandlerChain">
+		<property name="handlerList">
+			<list>
+				<bean class="org.edf.hifox.security.handler.EncipherHandler" p:encipher-ref="rsaEncipher"/>
+				<bean class="org.edf.hifox.security.handler.EncipherHandler" p:encipher-ref="desEncipher"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="des-rsa-decipher-chain" class="org.edf.hifox.core.chain.HandlerChain">
+		<property name="handlerList">
+			<list>
+				<bean class="org.edf.hifox.security.handler.DecipherHandler" p:decipher-ref="desDecipher"/>
+				<bean class="org.edf.hifox.security.handler.DecipherHandler" p:decipher-ref="rsaDecipher"/>
+			</list>
+		</property>
+	</bean>
+	<!-- ========================================================= -->
+	
+	
+	<!-- ===================== DES-AES-CHAIN ===================== -->
+	<bean id="des-aes-encipher-chain" class="org.edf.hifox.core.chain.HandlerChain">
+		<property name="handlerList">
+			<list>
+				<bean class="org.edf.hifox.security.handler.EncipherHandler" p:encipher-ref="desEncipher"/>
+				<bean class="org.edf.hifox.security.handler.EncipherHandler" p:encipher-ref="aesEncipher"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="aes-des-decipher-chain" class="org.edf.hifox.core.chain.HandlerChain">
+		<property name="handlerList">
+			<list>
+				<bean class="org.edf.hifox.security.handler.DecipherHandler" p:decipher-ref="aesDecipher"/>
+				<bean class="org.edf.hifox.security.handler.DecipherHandler" p:decipher-ref="desDecipher"/>
+			</list>
+		</property>
+	</bean>
+	<!-- ========================================================= -->
+	
+	
+	<!-- ===================== DES-RANDOMKEY-CHAIN ===================== -->
+	<bean id="des-randomkey-encipher-chain" class="org.edf.hifox.core.chain.HandlerChain">
+		<property name="handlerList">
+			<list>
+				<bean class="org.edf.hifox.security.handler.EncipherHandler" p:encipher-ref="desRandomkeyEncipher"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="des-randomkey-decipher-chain" class="org.edf.hifox.core.chain.HandlerChain">
+		<property name="handlerList">
+			<list>
+				<bean class="org.edf.hifox.security.handler.DecipherHandler" p:decipher-ref="desRandomkeyDecipher"/>
+			</list>
+		</property>
+	</bean>
+	<!-- =============================================================== -->
+	
+	
+	<!-- ===================== AES-RANDOMKEY-CHAIN ===================== -->
+	<bean id="aes-randomkey-encipher-chain" class="org.edf.hifox.core.chain.HandlerChain">
+		<property name="handlerList">
+			<list>
+				<bean class="org.edf.hifox.security.handler.EncipherHandler" p:encipher-ref="aesRandomkeyEncipher"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="aes-randomkey-decipher-chain" class="org.edf.hifox.core.chain.HandlerChain">
+		<property name="handlerList">
+			<list>
+				<bean class="org.edf.hifox.security.handler.DecipherHandler" p:decipher-ref="aesRandomkeyDecipher"/>
+			</list>
+		</property>
+	</bean>
+	<!-- =============================================================== -->
+	
+	
+	<bean id="encipherChainSelector"
+		class="org.edf.hifox.core.chain.selector.DefaultChainSelector"
+		p:expressionParser-ref="expressionParser"
+		p:defaultChain-ref="rsa-des-encipher-chain">
+		<constructor-arg>
+			<map>
+				<entry key="type == 'RSA'" value-ref="rsa-encipher-chain" />
+				<entry key="type == 'DES'" value-ref="des-encipher-chain" />
+				<entry key="type == 'AES'" value-ref="aes-encipher-chain" />
+				<entry key="type == 'RSA-DES'" value-ref="rsa-des-encipher-chain" />
+				<entry key="type == 'DES-AES'" value-ref="des-aes-encipher-chain" />
+				<entry key="type == 'DES-RANDOMKEY'" value-ref="des-randomkey-encipher-chain" />
+				<entry key="type == 'AES-RANDOMKEY'" value-ref="aes-randomkey-encipher-chain" />
+			</map>
+		</constructor-arg>
+	</bean>
+	<bean id="decipherChainSelector"
+		class="org.edf.hifox.core.chain.selector.DefaultChainSelector"
+		p:expressionParser-ref="expressionParser"
+		p:defaultChain-ref="des-rsa-decipher-chain">
+		<constructor-arg>
+			<map>
+				<entry key="#this == 'rsa-encipher-chain'" value-ref="rsa-decipher-chain" />
+				<entry key="#this == 'des-encipher-chain'" value-ref="des-decipher-chain" />
+				<entry key="#this == 'aes-encipher-chain'" value-ref="aes-decipher-chain" />
+				<entry key="#this == 'rsa-des-encipher-chain'" value-ref="des-rsa-decipher-chain" />
+				<entry key="#this == 'des-aes-encipher-chain'" value-ref="aes-des-decipher-chain" />
+				<entry key="#this == 'des-randomkey-encipher-chain'" value-ref="des-randomkey-decipher-chain" />
+				<entry key="#this == 'aes-randomkey-encipher-chain'" value-ref="aes-randomkey-decipher-chain" />
+			</map>
+		</constructor-arg>
+	</bean>
+	
+	
+	<bean id="defaultCipherAdapter" class="org.edf.hifox.security.adapter.DefaultCipherAdapter">
+		<property name="enChainSelector" ref="encipherChainSelector"/>
+		<property name="deChainSelector" ref="decipherChainSelector"/>
+	</bean>
+	
+	
+</beans>
