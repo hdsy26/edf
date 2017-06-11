@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE digester-rules PUBLIC
+         "-//Jakarta Apache //DTD digester-rules XML V1.0//EN"
+         "digester-rules.dtd">
+<digester-rules>
+<pattern value="mappings">
+	<pattern value="mapping">
+		<pattern value="class-defs">
+			<pattern value="class-def">
+				<pattern value="field-def">
+					<object-create-rule classname="org.edf.hifox.core.register.converter.registry.xmlbean.FieldDef"/>
+					<set-properties-rule>
+						<alias attr-name="name" prop-name="name" />
+						<alias attr-name="field-type" prop-name="fieldType" />
+						<alias attr-name="field-impl" prop-name="fieldImpl" />
+					</set-properties-rule>
+					<set-next-rule methodname="addFieldDef"/>
+				</pattern>
+				<object-create-rule classname="org.edf.hifox.core.register.converter.registry.xmlbean.ClassDef" />
+				<set-properties-rule>
+					<alias attr-name="name" prop-name="name" />
+				</set-properties-rule>
+				<set-next-rule methodname="add" />
+			</pattern>
+			<object-create-rule classname="java.util.ArrayList" />
+			<set-next-rule methodname="setClassDefs" />
+		</pattern>
+		
+		<pattern value="template-def">
+			<object-create-rule classname="org.edf.hifox.core.register.converter.registry.xmlbean.TemplateDef" />
+			<set-properties-rule>
+				<alias attr-name="encoding" prop-name="encoding" />
+				<alias attr-name="embed" prop-name="embed" />
+			</set-properties-rule>
+			<bean-property-setter-rule pattern="value" propertyname="value"/>
+			<set-next-rule methodname="setTemplateDef" />
+		</pattern>
+		
+		<object-create-rule classname="org.edf.hifox.core.register.converter.registry.xmlbean.ConverterMapping" />
+		<set-properties-rule>
+			<alias attr-name="converter-id" prop-name="converterId" />
+			<alias attr-name="rulecreator-id" prop-name="ruleCreatorId" />
+		</set-properties-rule>
+		<set-next-rule methodname="addMapping" />
+	</pattern>
+</pattern>
+</digester-rules>

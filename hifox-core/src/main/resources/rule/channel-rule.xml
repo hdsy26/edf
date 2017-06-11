@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE digester-rules PUBLIC
+         "-//Jakarta Apache //DTD digester-rules XML V1.0//EN"
+         "digester-rules.dtd">
+<digester-rules>
+<pattern value="channels">
+	<pattern value="channel">
+		<pattern value="http-endpoint">
+			<object-create-rule classname="org.edf.hifox.core.register.channel.registry.xmlbean.HttpEndpointDef" />
+			<set-properties-rule>
+				<alias attr-name="max-total" prop-name="maxTotal" />
+				<alias attr-name="max-per-route" prop-name="maxPerRoute" />
+				<alias attr-name="connect-timeout" prop-name="connectTimeout" />
+				<alias attr-name="so-timeout" prop-name="soTimeout" />
+				<alias attr-name="req-charset" prop-name="reqCharset" />
+				<alias attr-name="resp-charset" prop-name="respCharset" />
+				<alias attr-name="content-charset" prop-name="contentCharset" />
+				<alias attr-name="retry-count" prop-name="retryCount" />
+			</set-properties-rule>
+			<set-next-rule methodname="setHttpEndpointDef" />
+		</pattern>
+		
+		<object-create-rule classname="org.edf.hifox.core.register.channel.registry.xmlbean.ChannelDef" />
+		<set-properties-rule>
+			<alias attr-name="id" prop-name="id" />
+			<alias attr-name="type" prop-name="type" />
+			<alias attr-name="retry-count" prop-name="retryCount" />
+			<alias attr-name="delay-time" prop-name="delayTime" />
+		</set-properties-rule>
+		<set-next-rule methodname="addChannel" />
+	</pattern>
+</pattern>
+</digester-rules>

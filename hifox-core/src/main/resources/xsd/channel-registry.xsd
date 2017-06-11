@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xs:schema xmlns="http://www.w3school.com.cn" 
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+	elementFormDefault="qualified" targetNamespace="http://www.w3school.com.cn">
+
+	<xs:element name="channels" type="channelsType" />
+	
+	<xs:complexType name="channelsType">
+		<xs:sequence maxOccurs="unbounded">
+        	<xs:element name="channel" type="channelType"/>
+      	</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="channelType">
+		<xs:all>
+			<xs:element minOccurs="0" maxOccurs="1" name="http-endpoint" type="httpEndpointType"></xs:element>
+		</xs:all>
+		<xs:attribute name="id" type="xs:string"/>
+		<xs:attribute name="type" type="xs:string"/>
+		<xs:attribute name="retry-count" type="xs:integer"/>
+		<xs:attribute name="delay-time" type="xs:integer"/>
+	</xs:complexType>
+	
+	<xs:complexType name="httpEndpointType">
+		<xs:attribute name="max-total" type="xs:integer"/>
+		<xs:attribute name="max-per-route" type="xs:integer"/>
+		<xs:attribute name="connect-timeout" type="xs:integer"/>
+		<xs:attribute name="so-timeout" type="xs:integer"/>
+		<xs:attribute name="req-charset" type="enumCharset"/>
+		<xs:attribute name="resp-charset" type="enumCharset"/>
+		<xs:attribute name="content-charset" type="enumCharset"/>
+		<xs:attribute name="retry-count" type="xs:integer"/>
+	</xs:complexType>
+	
+	<xs:simpleType name="enumCharset">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="UTF-8"/>
+			<xs:enumeration value="GBK"/>
+			<xs:enumeration value="ISO-8859-1"/>
+		</xs:restriction>
+	</xs:simpleType>
+	
+</xs:schema>
